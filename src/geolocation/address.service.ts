@@ -9,16 +9,18 @@ export class AddressService {
         return 'Hello World!';
     }
 
-    getAdresses(adresses: Address[]): any {
+    async getAdresses(adresses: Address[]): Promise<any> {
         var address: any
-        var list = new Array()
+        const list = new Array()
         var conta: number
+        var result : any
+        //var coordinate : any
+        
+        const geocodingClient = new Client({});
 
-        adresses.forEach(element => {
+
+        for(var element of adresses) {
             address = Object.values(element)
-            // const coordinate = this.getCoordinate(address)
-            // list.push(coordinate)
-            const geocodingClient = new Client({});
             let params = {
                 address: address,
                 key: "AIzaSyD7sfyH7MevUXYJXKsiPUovEEKm_Mxi-_c"
@@ -27,16 +29,49 @@ export class AddressService {
                 params: params
             }).then((response) => {
                 var coordinate = [element, response.data.results[0].geometry.location.lat, response.data.results[0].geometry.location.lng]
-                 list.push(coordinate)
-                 console.log("dentro");
-                 
-                console.log("lindona"+list);
+                // Promise.all(coordinate).then(()=>{
+                    list.push(coordinate)
+                // })
+
+                console.log(coordinate);
                 
-                //console.log(coordinate);
+                
             })
-            console.log("lindona2"+list);
+            .catch(error=>{
+                console.log(error);
+                
+            });
+            // list.push(coordinate)
+            // console.log(coordinate);
             
-        })
+            //return list
+        }
+
+        // adresses.forEach(element => {
+        //     address = Object.values(element)
+        //     // const coordinate = this.getCoordinate(address)
+        //     // list.push(coordinate)
+        //     const geocodingClient = new Client({});
+        //     let params = {
+        //         address: address,
+        //         key: "AIzaSyD7sfyH7MevUXYJXKsiPUovEEKm_Mxi-_c"
+        //     }
+           
+            
+        //     geocodingClient.geocode({
+        //         params: params
+        //     }).then((response) => {
+        //         var coordinate = [element, response.data.results[0].geometry.location.lat, response.data.results[0].geometry.location.lng]
+        //         Promise.all(coordinate).then(()=>{
+        //             list.push(coordinate)
+        //         })
+        //         console.log(list);
+                
+                
+        //     })
+        //     console.log("lindona2"+list);
+        //     //return list
+        // })
         console.log("fora");
         
         console.log(list);
