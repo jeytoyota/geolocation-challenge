@@ -11,12 +11,13 @@ export class AddressService {
 
     getAdresses(adresses: Address[]): any {
         var address: any
-        var list: any[] = []
+        var list = new Array()
         var conta: number
 
         adresses.forEach(element => {
             address = Object.values(element)
-
+            // const coordinate = this.getCoordinate(address)
+            // list.push(coordinate)
             const geocodingClient = new Client({});
             let params = {
                 address: address,
@@ -26,17 +27,25 @@ export class AddressService {
                 params: params
             }).then((response) => {
                 var coordinate = [element, response.data.results[0].geometry.location.lat, response.data.results[0].geometry.location.lng]
-                list.push(coordinate)
-                console.log(list);
+                 list.push(coordinate)
+                 console.log("dentro");
+                 
+                console.log("lindona"+list);
+                
+                //console.log(coordinate);
             })
-
+            console.log("lindona2"+list);
+            
         })
+        console.log("fora");
+        
         console.log(list);
-
         return list
 
-    }
+        //return list
 
+    }
+    
 
 
     async getCoordinate(getAddress: string): Promise<any> {
@@ -53,7 +62,7 @@ export class AddressService {
         geocodingClient.geocode({
             params: params
         })
-            .then((response) => {
+            .then((response) => { 
                 // console.log('status: ' + response.data.status);
                 // console.log(response.data.results[0].geometry.location.lat);
                 console.log(response.data.results[0].geometry.location.lng);
@@ -76,7 +85,7 @@ export class AddressService {
         var y1: any
         var y2: any
         var distancia: any
-        var listDistancia: any[] = []
+        const listDistancia: any[] = []
         var x: number
         var y: number
         var sum: number
@@ -208,27 +217,27 @@ export class AddressService {
                 var endereco = [endereco1, endereco2, distancia]
                 if (distancia != 0) {
 
-                    listDistancia.push.apply(endereco)
+                    listDistancia.push(endereco)
                 }
                 //listDistancia.push(endereco1)
                 //console.log(endereco);
 
-                //console.log(listDistancia)
             }
         }
+        console.log(listDistancia)
+        
+        var maior : any = listDistancia[0]
+        var menor : any = listDistancia[0]
 
-        var maior : any = distancias[0]
-        var menor : any = distancias[0]
-
-        for(var position1 of distancias){
-                if(position1[2] > maior[2]){
-                    maior = position1
+        for(var position3 of listDistancia){
+                if(position3[2] > maior[2]){
+                    maior = position3
                 }else{
                     maior = maior
                 }
 
-                if(position1[2] < menor[2]){
-                    menor = position1
+                if(position3[2] < menor[2]){
+                    menor = position3
                 }else{
                     menor = menor
                 }
@@ -238,38 +247,39 @@ export class AddressService {
                 // console.log(menor); 
         }
 
-        console.log("maior ");
-        console.log(maior);
-        console.log('menor');
-        console.log(menor); 
-        return ("maior distancia" + maior + "menor distancia" + menor)
+        // console.log("maior ");
+        // console.log(maior);
+        // console.log('menor');
+        // console.log(menor); 
+        // return ("maior distancia" + maior[0].name + "menor distancia" + menor[0].name)
+        return listDistancia
 
     }
 
 }
 
 
-// [
-//     {
-//         "name" : "Av. Rio Branco,",
-//         "number" : 1,
-//         "code" : "20021200",
-//         "district" : "Centro",
-//         "sortNameCity" : "RJ"
-//     },
-//      {
-//         "name" : "Rua 19 de Fevereiro",
-//         "number" : 34,
-//         "code" : "22280030",
-//         "district" : "Botafogo,",
-//         "sortNameCity" : "RJ"
-//     },
-//     {
-//         "name" : "Rua Valdemar Martins",
-//         "number" : 946,
-//         "code" : "02535000",
-//         "district" : "Parque Peruche",
-//         "sortNameCity" : "SP"
-//     }
-// ]
+[
+    {
+        "name" : "Av. Rio Branco,",
+        "number" : 1,
+        "code" : "20021200",
+        "district" : "Centro",
+        "sortNameCity" : "RJ"
+    },
+     {
+        "name" : "Rua 19 de Fevereiro",
+        "number" : 34,
+        "code" : "22280030",
+        "district" : "Botafogo,",
+        "sortNameCity" : "RJ"
+    },
+    {
+        "name" : "Rua Valdemar Martins",
+        "number" : 946,
+        "code" : "02535000",
+        "district" : "Parque Peruche",
+        "sortNameCity" : "SP"
+    }
+]
 
