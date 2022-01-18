@@ -7,18 +7,14 @@ import { AddressService } from './address.service';
 export class AddressController {
   constructor(private readonly addressService: AddressService) {}
 
-  @Get()
-  getHello(): string {
-    return this.addressService.getHello();
-  }
-
-  @Post('add')
+  @Post('create')
   getAdresses(@Body()adresses : Address[]) : any {
     return this.addressService.getAdresses(adresses);
   }
-  @Get('conta')
-  calculo(): any {
-    return this.addressService.testeConta();
+
+  @Get('calculation')
+  calculo(coordinate : Array<any>): any {
+    return this.addressService.distanceCalculation(coordinate);
   }
  
 }
